@@ -1,32 +1,22 @@
 import { Link, Stack } from 'expo-router';
-import { StyleSheet } from 'react-native';
+import { Text, View } from 'react-native';
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+
+// Оборачиваем Text и View с помощью styled для поддержки className
+const StyledText = (Text);
+const StyledView = (View);
 
 export default function NotFoundScreen() {
   return (
     <>
       <Stack.Screen options={{ title: 'Oops!' }} />
-      <ThemedView style={styles.container}>
-        <ThemedText type="title">This screen doesn't exist.</ThemedText>
-        <Link href="/" style={styles.link}>
-          <ThemedText type="link">Go to home screen!</ThemedText>
+      <StyledView className="flex-1 items-center justify-center p-5">
+        <StyledText className="text-2xl font-bold mb-4">This screen doesn't exist.</StyledText>
+        <Link href="/" className="mt-4 py-3">
+          <StyledText className="text-blue-500 underline">Go to home screen!</StyledText>
         </Link>
-      </ThemedView>
+      </StyledView>
     </>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
-  },
-});
