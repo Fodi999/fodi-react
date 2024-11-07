@@ -1,4 +1,3 @@
-// app/_layout.tsx
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -13,7 +12,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Вход/выход пользователя
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // состояние авторизации пользователя
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
@@ -28,19 +27,22 @@ export default function RootLayout() {
     return null;
   }
 
+  console.log('Rendering RootLayout');
+  console.log('isAuthenticated:', isAuthenticated);
+
   return (
     <CartProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           {!isAuthenticated ? (
             <>
-              {/* Экран входа и регистрации */}
+              {/* Экраны авторизации */}
               <Stack.Screen name="(auth)/signIn" options={{ title: 'Вход' }} />
               <Stack.Screen name="(auth)/signUp" options={{ title: 'Регистрация' }} />
             </>
           ) : (
             <>
-              {/* Tab Layout для авторизованных пользователей */}
+              {/* Главный Tab Layout для авторизованных пользователей */}
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             </>
           )}
@@ -49,7 +51,3 @@ export default function RootLayout() {
     </CartProvider>
   );
 }
-
-
-
-

@@ -2,10 +2,9 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    "baseUrl": ".", // Указывает, что корень проекта — текущая директория
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"] // Настройка алиасов с корневым доступом
     },
     "types": [
       "./nativewind-types"
@@ -17,6 +16,7 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "nativewind-env.d.ts",
-    "svg.d.ts" // Добавляем декларацию SVG
+    "svg.d.ts"
   ]
 }
+ 

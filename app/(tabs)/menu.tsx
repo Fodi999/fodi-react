@@ -1,6 +1,9 @@
+// MenuScreen.tsx
+import React, { useState } from 'react';
 import { FlatList, Text, View, Image, TouchableOpacity } from 'react-native';
 import Rectangle3 from '@/assets/images/Rectangle-3.webp';
 import Rectangle22 from '@/assets/images/Rectangle-22.webp';
+import { useCart } from '../context/CartContext';
 
 const menuSections = [
   {
@@ -38,6 +41,9 @@ const menuSections = [
 ];
 
 export default function MenuScreen() {
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+  const { addToCart } = useCart();
+
   return (
     <View className="flex-1 p-5 bg-white dark:bg-gray-900">
       <Text className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Меню</Text>
@@ -52,19 +58,25 @@ export default function MenuScreen() {
               horizontal
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
-                <View className="mr-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg w-64">
-                  {/* Обёртка с фиксированными размерами для изображения */}
+                <TouchableOpacity
+                  className={`mr-4 p-4 rounded-lg shadow-lg w-64 ${
+                    selectedItemId === item.id ? 'border-2 border-red-500' : 'bg-gray-100 dark:bg-gray-800'
+                  }`}
+                  onPress={() => setSelectedItemId(item.id === selectedItemId ? null : item.id)}
+                >
                   <View className="w-full h-40 mb-2 overflow-hidden rounded-lg">
                     <Image source={item.image} style={{ width: '100%', height: '100%' }} resizeMode="contain" />
                   </View>
                   <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">{item.title}</Text>
                   <Text className="text-sm text-gray-600 dark:text-gray-300">{item.description}</Text>
                   <Text className="text-lg font-bold text-blue-600 dark:text-blue-400 mt-2">{item.price}</Text>
-                  {/* Кнопка "Купить" */}
-                  <TouchableOpacity className="mt-3 bg-blue-500 dark:bg-blue-400 py-2 rounded-lg items-center">
+                  <TouchableOpacity
+                    className="mt-3 bg-blue-500 dark:bg-blue-400 py-2 rounded-lg items-center"
+                    onPress={() => addToCart({ id: item.id, title: item.title, price: item.price, image: item.image })}
+                  >
                     <Text className="text-white font-semibold">Купить</Text>
                   </TouchableOpacity>
-                </View>
+                </TouchableOpacity>
               )}
               showsHorizontalScrollIndicator={false}
             />
@@ -75,9 +87,3 @@ export default function MenuScreen() {
     </View>
   );
 }
-
-
-
-
-
-
